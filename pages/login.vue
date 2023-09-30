@@ -12,7 +12,7 @@
           <UInput v-model="state.password" type="password" placeholder="password" icon="i-heroicons-key" />
         </UFormGroup>
         <UFormGroup class="mt-2">
-          <UButton type="submit" block>
+          <UButton type="submit" block :loading="sendingForm">
             Submit
           </UButton>
         </UFormGroup>
@@ -36,6 +36,8 @@ import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const router = useRouter()
+const toast = useToast()
+const sendingForm = ref(false);
 
 const state = ref({
   email: undefined,
@@ -44,17 +46,26 @@ const state = ref({
 
 const validate = (state: any): FormError[] => {
   const errors = []
+
   if (!state.email) errors.push({ path: 'email', message: 'Required' })
+
   if (!state.password) errors.push({ path: 'password', message: 'Required' })
+
   return errors
 }
 
 async function submit(event: FormSubmitEvent<any>) {
+  sendingForm.value = !sendingForm.value;
+
   const { error } = await supabase.auth.signInWithPassword({
     email: event.data.email,
     password: event.data.password
   })
-  if (error) console.log(error)
+
+  if (error){
+    toast.add({ title: 'Error', description: error.message, color: 'red', icon: 'i-heroicons-x-circle' })
+    sendingForm.value = !sendingForm.value;
+  }
 }
 
 watchEffect(() => {
