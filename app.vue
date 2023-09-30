@@ -1,9 +1,21 @@
 <template>
-  <div>
+  <LayoutAppContainer>
     <LayoutHeader />
-    <div class="h-[calc(100vh-80px)]">
+    <LayoutPageContainer class="h-[calc(100vh-80px)]">
       <NuxtPage />
-    </div>
-    
-  </div>
+    </LayoutPageContainer>
+  </LayoutAppContainer>
 </template>
+
+<script setup lang="ts" >
+const user = useSupabaseUser()
+const router = useRouter()
+
+watchEffect(() => {
+  if (user.value) {
+    router.push('/')
+  } else {
+    router.push('/login')
+  }
+})
+</script>

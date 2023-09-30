@@ -30,10 +30,4 @@ const signInWithOtp = async () => {
   })
   if (error) console.log(error)
 }
-
-watchEffect(() => {
-  if (user.value) {
-    navigateTo('/')
-  }
-})
 </script>

@@ -36,7 +36,7 @@ const items =[
       label: 'Sign Out',
       click(){
         spClient.auth.signOut()
-        router.push({ path: "/login" })
+        navigateTo('/login')
       }
   }]
 ]
