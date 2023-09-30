@@ -8,7 +8,7 @@
             <div class="flex mr-1 text-4xl">
               <UIcon name="i-heroicons-clock"/>
             </div>
-            <div class="hidden md:block">
+            <div>
               <h1><span class="text-primary">PLAN</span>eo</h1>
             </div>
           </NuxtLink>
