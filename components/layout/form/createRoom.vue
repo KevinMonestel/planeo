@@ -1,7 +1,7 @@
 <template>
   <UForm :validate="validate" :state="state" @submit="submit">
-    <UFormGroup label="Name" name="roomName">
-      <UInput v-model="state.roomName" />
+    <UFormGroup label="Name" name="roomName" required>
+      <UInput v-model="state.roomName"/>
     </UFormGroup>
     <UButton type="submit" class="mt-2">
       Submit
