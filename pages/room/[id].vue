@@ -1,19 +1,33 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-3 grid-rows-1 gap-10 mt-10">
+  <div class="grid grid-cols-2 grid-rows-2 gap-10">
     <div>
       <UCard>
         <template #header>Users subscribed to
-          <UBadge color="gray" variant="solid" :label="roomName"/>
+          <UBadge color="gray" variant="solid" :label="roomName" />
         </template>
         <ul v-for="user in users">
           <UBadge color="green" variant="subtle" :label="user.email" class="mb-2 rounded-full" size="sm" />
         </ul>
       </UCard>
     </div>
-    <div></div>
     <div>
-      <div>
-        <UButton label="Leave Room" class="rounded-full" variant="outline" color="red" @click="leave"/>
+      <UButton label="Leave Room" class="rounded-full" variant="outline" color="red" @click="leave" />
+    </div>
+    <div class="col-span-2">
+      <div class="grid grid-cols-5 grid-rows-3 gap-4">
+        <div class="card" @click="vote('0')">0</div>
+        <div class="card" @click="vote('1/2')">1/2</div>
+        <div class="col-start-1 row-start-2 card" @click="vote('1')">1</div>
+        <div class="col-start-3 row-start-1 card" @click="vote('2')">2</div>
+        <div class="col-start-4 row-start-1 card" @click="vote('3')">3</div>
+        <div class="col-start-5 row-start-1 card" @click="vote('5')">5</div>
+        <div class="card" @click="vote('1')">8</div>
+        <div class="card" @click="vote('13')">13</div>
+        <div class="card" @click="vote('20')">20</div>
+        <div class="card" @click="vote('40')">40</div>
+        <div class="col-start-2 card" @click="vote('100')">100</div>
+        <div class="col-start-3 card" @click="vote('?')">?</div>
+        <div class="col-start-4 card" @click="vote('☕')">☕</div>
       </div>
     </div>
   </div>
@@ -42,7 +56,6 @@ onMounted(() => {
   channel
     .on('presence', { event: 'sync' }, () => {
       const newState = channel.presenceState()
-      console.log('sync', JSON.stringify(newState))
 
       let usersData = JSON.parse(JSON.stringify(newState));
 
@@ -55,12 +68,11 @@ onMounted(() => {
           let user: User = usersArray[0]
 
           users.value.push(user)
-          console.log(usersArray)
         }
       }
     })
     .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-      console.log('join', key, JSON.stringify(newPresences))
+      //console.log('join', key, JSON.stringify(newPresences))
     })
     .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
       console.log('leave', key, leftPresences)
@@ -70,6 +82,10 @@ onMounted(() => {
 
       toast.add({ description: user + " left" })
     })
+    .on('broadcast', { event: 'vote' }, (payload) => {
+      toast.add({ description: payload.payload.user.email + "  voted " + payload.payload.vote })
+      console.log('vote', payload)
+    })
     .subscribe(async (status) => {
       if (status !== 'SUBSCRIBED') { return }
 
@@ -77,8 +93,22 @@ onMounted(() => {
     })
 })
 
-const leave = () =>{
+const leave = () => {
   channel.untrack()
   router.push({ path: '/' })
 }
+
+const vote = (vote: string) => {
+  channel.send({
+    type: 'broadcast',
+    event: 'vote',
+    payload: { user: userStatus, vote: vote },
+  })
+}
 </script>
+
+<style scoped>
+.card{
+  @apply text-center px-2 py-2 rounded-full border cursor-pointer hover:bg-primary transition-all;
+}
+</style>
