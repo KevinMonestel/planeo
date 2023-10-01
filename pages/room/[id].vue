@@ -1,9 +1,5 @@
 <template>
-  <div class="grid grid-cols-[100px_minmax(800px,_1fr)_200px] grid-rows-1 gap-0 h-full">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+  <div></div>
 </template>
 
 <script setup lang="ts">
@@ -38,5 +34,4 @@ onMounted(() => {
     (payload) => toast.add({ title: 'Woho!', description: `${payload.payload.message}`, color: 'primary', icon: 'i-heroicons-information-circle' })
   )
 })
-
 </script>
