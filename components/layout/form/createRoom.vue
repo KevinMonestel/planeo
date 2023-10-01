@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 
 const router = useRouter()
@@ -26,8 +25,7 @@ const validate = (state: any): FormError[] => {
 }
 
 async function submit(event: FormSubmitEvent<any>) {
-  router.push({ path: `"/room` });
+  router.push({ path: `/room/${event.data.roomName}` });
   console.log(event.data)
 }
-
 </script>

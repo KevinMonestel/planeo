@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 
 const supabase = useSupabaseClient()

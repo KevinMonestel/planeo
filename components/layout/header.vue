@@ -13,12 +13,12 @@
             </div>
           </NuxtLink>
           <div class="flex-1 flex items-center justify-end">
-            <UiColorPicker />
-            <div v-if="user">
+            <div v-if="user" class="mr-3">
               <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
                 <UButton color="white" :label="user.email" trailing-icon="i-heroicons-chevron-down-20-solid" />
               </UDropdown>
             </div>
+            <UiColorPicker />
           </div>
         </div>
       </UContainer>

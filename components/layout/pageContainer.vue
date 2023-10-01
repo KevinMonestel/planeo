@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <UContainer>
     <slot></slot>
-  </div>
+  </UContainer>
 </template>
 
 <script setup lang="ts">
