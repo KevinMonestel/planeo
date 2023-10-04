@@ -1,5 +1,6 @@
 export type User = {
   email: string | undefined,
   online_at: string | undefined,
-  presence_ref: string | undefined
+  presence_ref: string | undefined,
+  vote: string | undefined
 }
